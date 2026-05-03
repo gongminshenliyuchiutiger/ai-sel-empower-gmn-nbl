@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI神賦能—教師如何運用AI協助SEL導入課程教學與行政庶務</title>
+    
+    <!-- 引入 Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- 引入 Font Awesome 全面使用圖示 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --bg-color: #f8f9fa;
+            --prompt-bg: #e9ecef;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 2em;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            margin-top: 50px;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin-top: 30px;
+        }
+
+        p, li {
+            font-size: 1.1em;
+            color: #444;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .highlight-text {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* 灰色 Prompt 區塊設計 */
+        .prompt-container {
+            background-color: var(--prompt-bg);
+            border-left: 4px solid #6c757d;
+            border-radius: 0 8px 8px 0;
+            padding: 15px 20px;
+            margin: 15px 0 30px 0;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+        }
+
+        .prompt-container:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .prompt-text {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.05em;
+            color: #2c3e50;
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        /* 一鍵複製按鈕 */
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.9em;
+            color: #555;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ddd;
+            margin: 40px 0;
+        }
+
+        /* 頁尾版權與粉專 */
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px 20px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            transition: color 0.3s;
+            padding: 10px 20px;
+            background-color: #1877f2; /* FB官方藍色 */
+            border-radius: 30px;
+        }
+
+        .social-link:hover {
+            background-color: #166fe5;
+            transform: scale(1.05);
+        }
+
+        .social-link i {
+            margin-right: 8px;
+            font-size: 1.5em;
+        }
+
+        /* 吉祥物樣式與動畫 */
+        #mascot {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 120px;
+            z-index: 9999;
+            cursor: grab;
+            user-select: none;
+            touch-action: none; /* 防止手機滑動干擾拖曳 */
+            transition: filter 0.3s;
+        }
+
+        #mascot:active {
+            cursor: grabbing;
+        }
+
+        #mascot img {
+            width: 100%;
+            height: auto;
+            pointer-events: none; /* 讓圖片不干擾拖曳事件 */
+        }
+
+        /* 霓虹發光與抖動動畫 */
+        @keyframes neonJitter {
+            0% { filter: drop-shadow(0 0 5px #ff00ff) drop-shadow(0 0 15px #00ffff) hue-rotate(0deg); transform: translate(0, 0) rotate(0deg); }
+            10% { transform: translate(-2px, -2px) rotate(-3deg); }
+            20% { filter: drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 20px #00ffff) hue-rotate(90deg); transform: translate(2px, -1px) rotate(3deg); }
+            30% { transform: translate(-3px, 2px) rotate(-1deg); }
+            40% { filter: drop-shadow(0 0 5px #00ff00) drop-shadow(0 0 15px #ff0000) hue-rotate(180deg); transform: translate(1px, -2px) rotate(2deg); }
+            50% { transform: translate(-1px, 3px) rotate(-2deg); }
+            60% { filter: drop-shadow(0 0 15px #ffff00) drop-shadow(0 0 25px #ff00ff) hue-rotate(270deg); transform: translate(3px, 1px) rotate(3deg); }
+            70% { transform: translate(-2px, -3px) rotate(-1deg); }
+            80% { filter: drop-shadow(0 0 10px #00ffff) drop-shadow(0 0 20px #ff00ff) hue-rotate(360deg); transform: translate(2px, 2px) rotate(2deg); }
+            90% { transform: translate(-1px, -1px) rotate(-2deg); }
+            100% { filter: drop-shadow(0 0 5px #ff00ff) drop-shadow(0 0 15px #00ffff) hue-rotate(0deg); transform: translate(0, 0) rotate(0deg); }
+        }
+
+        #mascot:hover {
+            animation: neonJitter 0.4s infinite;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1><i class="fa-solid fa-microchip"></i> AI神賦能—教師如何運用AI協助SEL導入課程教學與行政庶務</h1>
+        </header>
+
+        <main>
+            <!-- 第一部分 -->
+            <section>
+                <h2><i class="fa-solid fa-bullseye"></i> 第一部分：為什麼現在非懂SEL不可？</h2>
+                
+                <h3>1. 什麼是社會情緒學習 (Social and Emotional Learning, SEL)？</h3>
+                <p>SEL不是一門死背的學科，而是「教導孩子如何好好做人、好好生活」的裝備。根據全球最具權威的 CASEL 機構定義，SEL 包含五大核心能力：</p>
+                <ul>
+                    <li><strong><i class="fa-solid fa-user"></i> 自我覺察 (Self-Awareness)：</strong>知道自己正在經歷什麼情緒？為什麼生氣？我的優缺點是什麼？<br>
+                    <em>*學生日常：考差了覺得自己很爛（缺乏覺察）vs. 知道自己是因為準備不足而感到挫折（具備覺察）。*</em></li>
+                    
+                    <li><strong><i class="fa-solid fa-brain"></i> 自我管理 (Self-Management)：</strong>如何冷靜下來？如何控制衝動？如何設定目標並抗拒誘惑（例如滑手機）？<br>
+                    <em>*學生日常：生氣就摔東西/飆髒話 vs. 深呼吸、暫時離開現場。*</em></li>
+                    
+                    <li><strong><i class="fa-solid fa-users-viewfinder"></i> 社會覺察 (Social Awareness)：</strong>換位思考，同理別人的感受，尊重不同的背景與觀點。<br>
+                    <em>*學生日常：嘲笑同學的外表 vs. 理解那樣說會讓人受傷。*</em></li>
+                    
+                    <li><strong><i class="fa-solid fa-handshake-angle"></i> 人際關係技巧 (Relationship Skills)：</strong>如何清晰溝通？如何拒絕不良的同儕壓力（如霸凌、抽菸）？如何解決衝突？<br>
+                    <em>*學生日常：吵架就絕交/在IG上發限動公審 vs. 好好表達自己的感受並尋求和解。*</em></li>
+                    
+                    <li><strong><i class="fa-solid fa-scale-balanced"></i> 負責任的決策 (Responsible Decision-Making)：</strong>評估行為的後果，做出對自己和他人都有益的安全選擇。<br>
+                    <em>*學生日常：因為不想上課就翹課 vs. 評估翹課會被記過且錯過重要進度，決定留下來。*</em></li>
+                </ul>
+
+                <h3>2. 老師的痛點 vs. SEL 的解方</h3>
+                <p>身為國高中老師，您是否常遇到以下狀況？</p>
+                <ul>
+                    <li><strong>痛點：</strong>學生動不動就理智線斷裂、在班群互嗆、缺乏讀書動機、遇到挫折就放棄、升學選擇全聽父母或盲從。</li>
+                    <li><strong>真相：</strong>這些問題的根源，通常不是「智商」問題，而是「情緒與社會能力」不足。</li>
+                    <li><strong>好消息：</strong>SEL 能力是 <strong class="highlight-text">可以被教導和訓練</strong> 的！當學生的 SEL 能力提升，班級氣氛會變好，霸凌減少，甚至學業成績也會跟著提升（研究指出，導入 SEL 課程的學校，學生成績平均提升 11%）。</li>
+                </ul>
+                <p><strong>但問題來了：老師已經夠忙了，哪有時間教 SEL？</strong><br>
+                這就是為什麼我們需要 AI！AI 可以成為您的「SEL 助教」，幫您把 SEL 無痛融入日常教學與班級經營中，不增加您的負擔。</p>
+            </section>
+
+            <hr>
+
+            <!-- 第二部分 -->
+            <section>
+                <h2><i class="fa-solid fa-toolbox"></i> 第二部分：AI 助攻實戰 —— 複製貼上就能用的 Prompt 大全</h2>
+                <p><strong>使用方法：</strong>請打開 Google Gemini 或 Google NotebookLM，<strong class="highlight-text">點擊灰色區塊右上角的「複製」按鈕</strong>，將 Prompt 貼上並根據您的實際情況修改資訊，然後送出。</p>
+                <ul>
+                    <li><i class="fa-solid fa-rocket" style="color:#e74c3c;"></i> <strong>Google Gemini (萬能大腦)：</strong>適合「無中生有」。用來發想教案、草擬親師溝通信、設計情境劇本。</li>
+                    <li><i class="fa-solid fa-book-open" style="color:#2980b9;"></i> <strong>Google NotebookLM (專屬書僮)：</strong>適合「資料統整」。必須先「上傳文件」（如：長篇輔導紀錄、生硬的校規、落落長的專家文章），AI會只針對你給的資料進行分析、摘要，甚至轉成 Podcast，絕不胡說八道（幻覺極低）。</li>
+                </ul>
+
+                <!-- Prompt 1 -->
+                <h3><i class="fa-solid fa-rocket"></i> 1. 【學科融入】學科重要人物心境與決策分析（Gemini）</h3>
+                <p><strong>痛點：</strong>學科知識生硬，學生覺得與自己無關。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">我是一位【歷史】老師，正在教【楚漢相爭（項羽與劉邦）】。請幫我設計 3 個結合學科知識與 SEL『負責任的決策』及『自我覺察』的課堂提問。引導學生探討歷史人物面臨壓力時的情緒狀態，以及他們的決策帶來什麼後果。提問要貼近 15 歲青少年的理解，讓他們反思如果是自己會怎麼做。</p>
+                </div>
+
+                <!-- Prompt 2 -->
+                <h3><i class="fa-solid fa-rocket"></i> 2. 【分組報告】解決小組搭便車與意見衝突（Gemini）</h3>
+                <p><strong>痛點：</strong>分組報告常引發人際衝突，學生不知如何溝通。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">下週班上要進行分組報告，但我發現各組常有『一人做事其他人擺爛』或『意見不合就吵架』的狀況。請幫我設計一段 5 分鐘的課前 SEL 引導（人際關係技巧），包含：1. 兩句讓學生破冰、確認彼此情緒的開場白。2. 提供一個『溫和但堅定的表達句型（I-message）』，教他們如何請同學幫忙而不傷和氣。</p>
+                </div>
+
+                <!-- Prompt 3 -->
+                <h3><i class="fa-solid fa-rocket"></i> 3. 【考前減壓】帶領全班穩定焦慮情緒（Gemini）</h3>
+                <p><strong>痛點：</strong>段考/會考前夕，班上氣氛浮躁或充滿焦慮。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">下週就是【高中學測/國中會考】，班上氣氛非常焦慮。請幫我設計一個只要 3 分鐘、坐在座位上就能完成的 SEL『情緒調節』小活動。可以包含簡單的呼吸法或視覺化放鬆。請給我老師帶領時的『完整逐字稿』，語氣要安定人心、溫暖且充滿支持。</p>
+                </div>
+
+                <!-- Prompt 4 -->
+                <h3><i class="fa-solid fa-rocket"></i> 4. 【情緒表達】擴充「青少年情緒詞彙庫」學習單（Gemini）</h3>
+                <p><strong>痛點：</strong>學生表達情緒永遠只有「煩、累、躁、爽」。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">國高中生常只用『煩』來表達所有負面情緒，缺乏『自我覺察』的能力。請幫我列出 12 個可以替代『煩』的細緻情緒詞彙（例如：委屈、無力、嫉妒、不甘心...）。針對這 12 個詞彙，設計一份『情境配對連連看』學習單，情境要貼近校園生活（如：被已讀不回、努力卻考不好）。我要直接印出來讓學生寫。</p>
+                </div>
+
+                <!-- Prompt 5 -->
+                <h3><i class="fa-solid fa-rocket"></i> 5. 【班會活動】處理同儕壓力與拒絕技巧短劇（Gemini）</h3>
+                <p><strong>痛點：</strong>學生為融入群體，不敢拒絕不合理的要求（如作弊、抽菸、排擠他人）。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">請幫我寫一個 3 分鐘的班會短劇本，主題是『同儕壓力：朋友要求考試時給他看答案，否則就絕交』。角色有：要求作弊的A、為難的B。劇本對話要符合高中生流行用語。請在結尾提供 3 個 SEL 提問，引導台下討論：如何在『維持友誼』與『做出負責任決策』之間取得平衡？</p>
+                </div>
+
+                <!-- Prompt 6 -->
+                <h3><i class="fa-solid fa-book-open"></i> 6. 【閱讀理解】從長篇文章提煉多元觀點（NotebookLM）</h3>
+                <p><em>準備：上傳一篇關於「死刑存廢」、「網路實名制」或「AI 取代人類」的長篇報導。</em><br>
+                <strong>痛點：</strong>學生看事情常非黑即白，缺乏換位思考的同理心。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">根據上傳的報導，請幫我整理出『支持方』與『反對方』背後的『核心擔憂與情緒感受』（社會覺察）。請列出 3 個引導式問題，讓學生在課堂上討論時，能先同理與自己不同立場的人，再發表自己的看法。</p>
+                </div>
+
+                <!-- Prompt 7 -->
+                <h3><i class="fa-solid fa-book-open"></i> 7. 【生涯輔導】將性向測驗/大學簡章轉化為決策指南（NotebookLM）</h3>
+                <p><em>準備：上傳大學某科系簡章，或某種職業的深度介紹文章。</em><br>
+                <strong>痛點：</strong>學生選校系只看分數，不了解自己的特質與該科系的適配度。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">根據上傳的資料，這個【科系/職業】最需要具備哪些『SEL 社會情緒能力』（例如：抗壓性、團隊合作、同理心）？請幫我設計一份檢核表，讓學生評估自己的情緒特質是否適合這個領域，並提供給他們『如果想唸這個科系，現在可以開始培養什麼習慣』的具體建議。</p>
+                </div>
+
+                <!-- Prompt 8 -->
+                <h3><i class="fa-solid fa-rocket"></i> 8. 【賽後引導】運動會/比賽落敗的集體情緒修復（Gemini）</h3>
+                <p><strong>痛點：</strong>班際籃球賽輸了，班上開始互相指責或陷入低潮。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">我們班今天在【大隊接力】比賽中因為失誤掉棒而慘敗，現在班上氣氛很糟，有人在怪罪掉棒的同學。我需要一段 5 分鐘的『賽後心理建設與情緒修復』演講大綱。請運用 SEL 的『社會覺察』與『團隊建立』，引導他們把焦點從『找戰犯』轉移到『看見彼此的努力』與『學習面對挫折』上。</p>
+                </div>
+
+                <!-- Prompt 9 -->
+                <h3><i class="fa-solid fa-rocket"></i> 9. 【親師溝通】撰寫高防衛心家長的聯絡信（Gemini）</h3>
+                <p><strong>痛點：</strong>學生在校違規，必須通知家長，但怕家長覺得老師在找麻煩。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">我的學生【小明】今天在班上【因為座位問題對同學飆髒話，甚至摔椅子】。我需要寫一段 LINE 訊息給他的家長（家長平時防衛心較重，常覺得是別人的錯）。請用『三明治溝通法』撰寫：先肯定優點 -> 客觀陳述事件與擔憂 -> 邀請家長合作。並帶入 SEL 概念，強調我們希望共同協助孩子提升『情緒調節』能力。字數 250 字內，語氣溫和且堅定。</p>
+                </div>
+
+                <!-- Prompt 10 -->
+                <h3><i class="fa-solid fa-rocket"></i> 10. 【期末評語】將缺點轉化為「成長型思維」評語（Gemini）</h3>
+                <p><strong>痛點：</strong>寫評語想破頭，不知如何把學生的負面行為寫得委婉又具建設性。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">我是國中導師，請將以下學生的特點，轉化為帶有『SEL 成長型思維』的期末評語（每則約 60 字），先肯定他的動機或特質，再點出未來的進步方向：
+1. 上課愛講話，常打斷老師。
+2. 遇到數學解不出來就撕考卷、容易放棄。
+3. 自尊心極強，聽不進同學的建議。</p>
+                </div>
+
+                <!-- Prompt 11 -->
+                <h3><i class="fa-solid fa-rocket"></i> 11. 【行為輔導】設計「引導式反思單」取代悔過書（Gemini）</h3>
+                <p><strong>痛點：</strong>傳統悔過書流於形式，學生只會寫「我下次不敢了」，沒有真正反思。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">學生因為【連續一週上課偷滑手機且對老師說謊】違反班規。請幫我設計一份 A4 大小的『事件反思與成長學習單』。包含四個區塊，引導學生運用 SEL 能力：1. 客觀還原事件（不帶情緒）；2. 探究冰山下的原因（是無聊？想逃避？）；3. 對老師及同學的影響（社會覺察）；4. 未來遇到誘惑的『三個具體替代方案』（負責任的決策）。</p>
+                </div>
+
+                <!-- Prompt 12 -->
+                <h3><i class="fa-solid fa-book-open"></i> 12. 【個案分析】從厚重的輔導紀錄找出情緒地雷（NotebookLM）</h3>
+                <p><em>準備：上傳某位特殊生或高關懷學生「過去一年的輔導紀錄或 IEP 計畫文字檔」。（務必去識別化）</em><br>
+                <strong>痛點：</strong>接手新班級，沒時間詳讀厚厚的紀錄，難以掌握學生的地雷。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">根據上傳的輔導紀錄，請幫我統整分析：1. 觸發該名學生情緒失控的『前兆』與『主要壓力源（地雷）』通常是什麼？ 2. 過去的紀錄中，哪三種安撫或溝通策略對他最有效？ 3. 他目前在 SEL『自我管理』上最需要被協助的點是什麼？</p>
+                </div>
+
+                <!-- Prompt 13 -->
+                <h3><i class="fa-solid fa-book-open"></i> 13. 【班級經營】把冰冷的校規轉化為「SEL 正向班規」（NotebookLM）</h3>
+                <p><em>準備：上傳學校生硬的「學生獎懲辦法」或「服儀作息規定」。</em><br>
+                <strong>痛點：</strong>校規充滿「嚴禁、記過」，缺乏教育意義，學生看了就反感。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">根據上傳的校規，挑出與『日常作息、手機使用、同學相處』最相關的 5 條。請幫我將這 5 條規定，改寫成帶有 SEL 精神的『正向班規』。不要用『嚴禁...』，改用『因為我們重視（某種價值觀）...，所以我們選擇（具體行為）...』的句型，讓學生理解界線的意義。</p>
+                </div>
+
+                <!-- Prompt 14 -->
+                <h3><i class="fa-solid fa-rocket"></i> 14. 【衝突調解】老師介入學生吵架的「調解對話大綱」（Gemini）</h3>
+                <p><strong>痛點：</strong>學生互罵互毆，老師介入調解時，雙方各執一詞，老師容易跟著動怒。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">班上兩位學生因為【打掃工作分配不均】引發激烈口角，甚至推擠。我等一下要把他們叫來辦公室調解。請幫我擬定一份『修復式溝通（Restorative Justice）』的 4 步對話大綱。提供老師可以直接套用的提問句型，引導雙方表達自己的感受（自我覺察）、聽見對方的感受（社會覺察），並共同想出解決方案，而不是只由老師來定罪。</p>
+                </div>
+
+                <!-- Prompt 15 -->
+                <h3><i class="fa-solid fa-rocket"></i> 15. 【常規建立】每日晨會/班會的 SEL 破冰檢核（Gemini）</h3>
+                <p><strong>痛點：</strong>早自習學生精神不佳，不知如何快速凝聚班級向心力並確認學生狀況。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">我希望每天早自習能用 2 分鐘進行全班的 SEL 狀態 Check-in。請幫我設計 5 個不同的『趣味情緒刻度問答』或『破冰小問題』（例如：如果今天的情緒是一種天氣，你會是什麼？）。問題要簡單、不涉及太多隱私，讓學生可以用舉手或比數字的方式快速回應，幫助老師掌握班上今天的整體氛圍。</p>
+                </div>
+
+                <!-- Prompt 16 -->
+                <h3><i class="fa-solid fa-book-open"></i> 16. 【親師座談】幫家長畫 SEL 教養重點（NotebookLM）</h3>
+                <p><em>準備：上傳一篇優質的長篇教育文章（如：青春期大腦發展、如何陪伴焦慮的孩子）。</em><br>
+                <strong>痛點：</strong>想在班親會分享有用的衛教知識，但家長沒耐心看長文或聽長篇大論。</p>
+                <div class="prompt-container">
+                    <button class="copy-btn" onclick="copyPrompt(this)"><i class="fa-regular fa-copy"></i> 複製</button>
+                    <p class="prompt-text">這是一篇關於青少年情緒管理的文章。請幫我濃縮成『班親會報告用的 3 個核心重點』，並提供 2 個『家長在家就可以做的具體對話示範』。文案要適合直接貼在班級家長 LINE 群組，或者讓我做成 3 頁的簡報。語氣要同理家長的辛苦，強調親師合作。</p>
+                </div>
+            </section>
+
+            <hr>
+
+            <!-- 第三部分 -->
+            <section>
+                <h2><i class="fa-solid fa-lightbulb"></i> 第三部分：給老師的小叮嚀（AI 避坑指南）</h2>
+                <ul>
+                    <li><i class="fa-solid fa-shield-halved"></i> <strong>保護個資是鐵律：</strong>在輸入 Prompt 時，「絕對不要」打出學生的真實姓名、家長背景、身分證字號。請用「小明」、「A同學」代替。</li>
+                    <li><i class="fa-solid fa-heart"></i> <strong>AI是草稿，教師是靈魂：</strong>AI產出的文字有時會有一點「翻譯腔」或過於官腔。請務必在送出前，稍微修改成自己平常講話的語氣，注入對學生的了解與溫度。</li>
+                    <li><i class="fa-solid fa-ear-listen"></i> <strong>不要過度依賴：</strong>AI可以幫忙寫反思單、擬定溝通策略，但「傾聽學生說話」的過程，仍然必須由自己親自來做。AI是為了幫忙省下行政與想點子的時間，讓教師有更多心力去「陪伴」。</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <!-- 頁尾版權與粉專連結 -->
+    <footer>
+        <a href="https://www.facebook.com/happyliyuchilltiger/" target="_blank" class="social-link">
+            <i class="fa-brands fa-facebook"></i> 快樂鯉魚秋老虎 FB 粉絲專頁
+        </a>
+        <p>Copyright &copy; Liyuchiutiger Gongminshen</p>
+    </footer>
+
+    <!-- 吉祥物圖片 -->
+    <div id="mascot">
+        <img src="https://gongminshenliyuchiutiger.github.io/__public-useful__/image/LiyuChill.svg" alt="吉祥物 LiyuChill">
+    </div>
+
+    <!-- 交互功能 Scripts -->
+    <script>
+        // 1. Prompt 一鍵複製功能
+        function copyPrompt(button) {
+            // 尋找按鈕旁邊的 p 標籤 (即 Prompt 內容)
+            const promptText = button.nextElementSibling.innerText;
+            
+            // 複製到剪貼簿
+            navigator.clipboard.writeText(promptText).then(() => {
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fa-solid fa-check"></i> 已複製';
+                button.style.backgroundColor = '#2ecc71';
+                button.style.color = 'white';
+                button.style.borderColor = '#2ecc71';
+                
+                // 2秒後恢復原狀
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.backgroundColor = '';
+                    button.style.color = '';
+                    button.style.borderColor = '';
+                }, 2000);
+            }).catch(err => {
+                alert('複製失敗，請手動選取複製！');
+            });
+        }
+
+        // 2. 吉祥物拖曳功能
+        const mascot = document.getElementById('mascot');
+        
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        // 電腦滑鼠事件
+        mascot.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+
+        // 手機觸控事件
+        mascot.addEventListener('touchstart', dragStart, { passive: false });
+        document.addEventListener('touchmove', drag, { passive: false });
+        document.addEventListener('touchend', dragEnd);
+
+        function dragStart(e) {
+            if (e.type === "touchstart") {
+                initialX = e.touches[0].clientX - xOffset;
+                initialY = e.touches[0].clientY - yOffset;
+            } else {
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+            }
+
+            if (e.target === mascot || e.target.parentNode === mascot) {
+                isDragging = true;
+                if(e.type === "touchstart") e.preventDefault(); // 防止手機預設行為
+            }
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault(); // 防止拖曳時選取文字或滾動
+                
+                if (e.type === "touchmove") {
+                    currentX = e.touches[0].clientX - initialX;
+                    currentY = e.touches[0].clientY - initialY;
+                } else {
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+                }
+
+                xOffset = currentX;
+                yOffset = currentY;
+
+                // 為了讓 CSS transform 正常運作且不被 bottom/left 限制，改為調整 transform
+                mascot.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+            }
+        }
+
+        function dragEnd(e) {
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+        }
+    </script>
+</body>
+</html>
