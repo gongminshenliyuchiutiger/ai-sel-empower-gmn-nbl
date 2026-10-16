@@ -258,7 +258,7 @@
         /* 延伸資源卡片網格 */
         .resource-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr); 
+            grid-template-columns: repeat(4, 1fr); 
             gap: 15px;
             margin-top: 30px;
         }
@@ -835,6 +835,24 @@
             line-height: 1.8;
         }
 
+        body.presentation-mode .resource-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+        body.presentation-mode .resource-card {
+            padding: 16px 12px;
+            gap: 10px;
+        }
+        body.presentation-mode .resource-card .icon {
+            width: 46px;
+            height: 46px;
+            font-size: 1.3em;
+        }
+        body.presentation-mode .resource-card .title {
+            font-size: 0.9em;
+        }
+
         /* 手機版與平板響應式適配 (RWD) */
         @media (max-width: 992px) {
             .resource-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
@@ -1221,7 +1239,7 @@
             <!-- Slide 18: 第二部分開頭與工具簡介 -->
             <section class="slide">
                 <h2><i class="fa-solid fa-lightbulb"></i> 第二部分：AI 助攻實戰 —— 複製貼上就能用的 Prompt 大全</h2>
-                <p><strong>使用方法：</strong>請點開 <a href="https://gemini.google.com/" target="_blank" class="tool-link">Google Gemini</a> 或 <a href="https://notebooklm.google.com/" target="_blank" class="tool-link">Google NotebookLM</a>，將 Prompt 貼上並根據您的實際情況修改資訊，然後送出。</p>
+                <p><strong>使用方法：</strong>請點開 <a href="https://gemini.google.com/" target="_blank" class="tool-link">Google Gemini</a> 或 <a href="https://notebook.google.com/" target="_blank" class="tool-link">Gemini Notebook</a>，將 Prompt 貼上並根據您的實際情況修改資訊，然後送出。</p>
                 
                 <div class="sel-grid-2">
                     <div class="sel-card" style="--card-accent: var(--secondary-color);">
@@ -1231,7 +1249,7 @@
                         </div>
                     </div>
                     <div class="sel-card" style="--card-accent: var(--primary-color);">
-                        <div class="sel-card-title"><i class="fa-solid fa-book-bookmark"></i> Google NotebookLM (專屬書僮)</div>
+                        <div class="sel-card-title"><i class="fa-solid fa-book-bookmark"></i> Gemini Notebook (專屬書僮)</div>
                         <div class="sel-card-body">
                             <p>適合「資料統整」。必須先「上傳文件」，AI會只針對你給的資料進行分析、摘要，絕不胡說八道（幻覺極低）。</p>
                         </div>
@@ -1292,7 +1310,7 @@
             <!-- Slide 24: Prompt 6 -->
             <div class="prompt-slide slide">
                 <h2 class="only-pres"><i class="fa-solid fa-lightbulb"></i> 第二部分：AI 助攻實戰 —— Prompt 大全</h2>
-                <h3>6. 【閱讀理解】從長篇文章提煉多元觀點（NotebookLM）</h3>
+                <h3>6. 【閱讀理解】從長篇文章提煉多元觀點（Gemini Notebook）</h3>
                 <div class="prompt-container">
                     <button class="copy-btn" onclick="copyPrompt(this)" title="複製提示詞"><i class="fa-regular fa-copy"></i></button>
                     <p class="prompt-text">根據上傳的報導，請幫我整理出『支持方』與『反對方』背後的『核心擔憂與情緒感受』（社會覺察）。請列出 3 個引導式問題，讓學生在課堂上討論時，能先同理與自己不同立場的人，再發表自己的看法。</p>
@@ -1302,7 +1320,7 @@
             <!-- Slide 25: Prompt 7 -->
             <div class="prompt-slide slide">
                 <h2 class="only-pres"><i class="fa-solid fa-lightbulb"></i> 第二部分：AI 助攻實戰 —— Prompt 大全</h2>
-                <h3>7. 【生涯輔導】將性向測驗/大學簡章轉化為決策指南（NotebookLM）</h3>
+                <h3>7. 【生涯輔導】將性向測驗/大學簡章轉化為決策指南（Gemini Notebook）</h3>
                 <div class="prompt-container">
                     <button class="copy-btn" onclick="copyPrompt(this)" title="複製提示詞"><i class="fa-regular fa-copy"></i></button>
                     <p class="prompt-text">根據上傳的資料，這個【科系/職業】最需要具備哪些『SEL社會情緒能力』（例如：抗壓性、團隊合作、同理心）？請幫我設計一份檢核表，讓學生評估自己的情緒特質是否適合這個領域，並提供給他們『如果想唸這個科系，現在可以開始培養什麼習慣』的具體建議。</p>
@@ -1355,7 +1373,7 @@
             <!-- Slide 30: Prompt 12 -->
             <div class="prompt-slide slide">
                 <h2 class="only-pres"><i class="fa-solid fa-lightbulb"></i> 第二部分：AI 助攻實戰 —— Prompt 大全</h2>
-                <h3>12. 【個案分析】從厚重的輔導紀錄找出情緒地雷（NotebookLM）</h3>
+                <h3>12. 【個案分析】從厚重的輔導紀錄找出情緒地雷（Gemini Notebook）</h3>
                 <div class="prompt-container">
                     <button class="copy-btn" onclick="copyPrompt(this)" title="複製提示詞"><i class="fa-regular fa-copy"></i></button>
                     <p class="prompt-text">根據上傳的輔導紀錄，請幫我統整分析：1. 觸發該名學生情緒失控的『前兆』與『主要壓力源（地雷）』通常是什麼？ 2. 過去的紀錄中，哪三種安撫或溝通策略對他最有效？ 3. 他目前在 SEL『自我管理』上最需要被協助的點是什麼？</p>
@@ -1365,7 +1383,7 @@
             <!-- Slide 31: Prompt 13 -->
             <div class="prompt-slide slide">
                 <h2 class="only-pres"><i class="fa-solid fa-lightbulb"></i> 第二部分：AI 助攻實戰 —— Prompt 大全</h2>
-                <h3>13. 【班級經營】把冰冷的校規轉化為「SEL正向班規」（NotebookLM）</h3>
+                <h3>13. 【班級經營】把冰冷的校規轉化為「SEL正向班規」（Gemini Notebook）</h3>
                 <div class="prompt-container">
                     <button class="copy-btn" onclick="copyPrompt(this)" title="複製提示詞"><i class="fa-regular fa-copy"></i></button>
                     <p class="prompt-text">根據上傳的校規，挑出與『日常作息、手機使用、同學相處』最相關的 5 條。請幫我將這 5 條規定，改寫成帶有SEL精神的『正向班規』。不要用『嚴禁...』，改用『因為我們重視（某種價值觀）...，所以我們選擇（具體行為）...』的句型，讓學生理解界線的意義。</p>
@@ -1395,7 +1413,7 @@
             <!-- Slide 34: Prompt 16 -->
             <div class="prompt-slide slide">
                 <h2 class="only-pres"><i class="fa-solid fa-lightbulb"></i> 第二部分：AI 助攻實戰 —— Prompt 大全</h2>
-                <h3>16. 【親師座談】幫家長畫SEL教養重點（NotebookLM）</h3>
+                <h3>16. 【親師座談】幫家長畫SEL教養重點（Gemini Notebook）</h3>
                 <div class="prompt-container">
                     <button class="copy-btn" onclick="copyPrompt(this)" title="複製提示詞"><i class="fa-regular fa-copy"></i></button>
                     <p class="prompt-text">這是一篇關於青少年情緒管理的文章。請幫我濃縮成『班親會報告用的 3 個核心重點』，並提供 2 個『家長在家就可以做的具體對話示範』。文案要適合直接貼在 LINE 群組，語氣要同理家長的辛苦，強調親師合作。</p>
@@ -1439,6 +1457,34 @@
                     <a href="https://gongminshenliyuchiutiger.github.io/sel-emotions-and-needs-describe/" target="_blank" class="resource-card">
                         <div class="icon"><i class="fa-solid fa-chalkboard-user"></i></div>
                         <div class="title">SEL全方位情緒與<br>需求表述板</div>
+                    </a>
+                    <a href="https://gongminshenliyuchiutiger.github.io/mood-shen-forecast/" target="_blank" class="resource-card">
+                        <div class="icon"><i class="fa-solid fa-cloud-sun-rain"></i></div>
+                        <div class="title">神麼心情氣象臺<br>系統</div>
+                    </a>
+                    <a href="https://gongminshenliyuchiutiger.github.io/gratitude-jar/" target="_blank" class="resource-card">
+                        <div class="icon"><i class="fa-solid fa-jar"></i></div>
+                        <div class="title">感恩罐｜<br>GratitudeJar</div>
+                    </a>
+                    <a href="https://gongminshenliyuchiutiger.github.io/purify-space/" target="_blank" class="resource-card">
+                        <div class="icon"><i class="fa-solid fa-spa"></i></div>
+                        <div class="title">情緒抒發桶｜<br>PurifySpace</div>
+                    </a>
+                    <a href="https://gongminshenliyuchiutiger.github.io/prefrontal-cortex-shen/" target="_blank" class="resource-card">
+                        <div class="icon"><i class="fa-solid fa-brain"></i></div>
+                        <div class="title">神控前額葉訓練<br>遊戲系統</div>
+                    </a>
+                    <a href="https://gongminshenliyuchiutiger.github.io/mindful-peanut/" target="_blank" class="resource-card">
+                        <div class="icon"><i class="fa-solid fa-seedling"></i></div>
+                        <div class="title">Mindful Peanut｜<br>正念花生</div>
+                    </a>
+                    <a href="https://gongminshenliyuchiutiger.github.io/mindful-gummy-bear/" target="_blank" class="resource-card">
+                        <div class="icon"><i class="fa-solid fa-paw"></i></div>
+                        <div class="title">Mindful Peanut｜<br>正念小熊軟糖</div>
+                    </a>
+                    <a href="https://gongminshenliyuchiutiger.github.io/neuro-calm/" target="_blank" class="resource-card">
+                        <div class="icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                        <div class="title">停止焦慮三大科學<br>動作導引系統</div>
                     </a>
                 </div>
             </section>
